@@ -2,6 +2,7 @@ package hesheng.commons.http;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 public class HttpPostUtil {
-	public static HttpResponse getResponseByPost(String url, Map<String,String> params, String encoding) throws URISyntaxException, ClientProtocolException, IOException{
+	public static HttpResponse getResponseByPost(String url, Map<String,String> params, Charset encoding) throws URISyntaxException, ClientProtocolException, IOException{
 		CloseableHttpClient httpClient = null;
 		CloseableHttpResponse response = null;
 		try {
@@ -37,7 +38,8 @@ public class HttpPostUtil {
 			httpPost.setEntity(entity );
 			
 			httpClient = HttpClients.createDefault();
-			response = httpClient.execute(httpPost);
+			response = httpClient.execute(httpPost); 
+			 
 			
 			HttpResponse httpResponse = new HttpResponse();
 			httpResponse.setStatus(response.getStatusLine());
@@ -51,14 +53,14 @@ public class HttpPostUtil {
 	}
 	
 	
-	public static HttpResponse getResponseByPost(String url, String jsonParams, String encoding) throws URISyntaxException, ClientProtocolException, IOException{
+	public static HttpResponse getResponseByPost(String url, String jsonParams, Charset encoding) throws URISyntaxException, ClientProtocolException, IOException{
 		CloseableHttpClient httpClient = null;
 		CloseableHttpResponse response = null;
 		try {
 			HttpPost httpPost = new HttpPost(url);
 			StringEntity entity = new StringEntity(null==jsonParams?"":jsonParams, encoding);
 			entity.setContentType("application/json");
-			entity.setContentEncoding(encoding);
+			entity.setContentEncoding(encoding.name());
 			httpPost.setEntity(entity );
 			
 			httpClient = HttpClients.createDefault();
