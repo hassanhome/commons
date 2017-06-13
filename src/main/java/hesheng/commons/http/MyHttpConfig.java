@@ -10,6 +10,11 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 import org.apache.log4j.Logger;
 
+/**
+ * httpclient配置
+ * @author admin
+ *
+ */
 public class MyHttpConfig {
 	
 	private static Logger logger = Logger.getLogger(MyHttpConfig.class);
