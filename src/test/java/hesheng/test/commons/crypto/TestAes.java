@@ -4,26 +4,20 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.Security;
-import java.security.cert.CertPathParameters;
 import java.util.Map.Entry;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.net.ssl.ManagerFactoryParameters;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.TrustManagerFactorySpi;
-import javax.net.ssl.X509ExtendedTrustManager;
 
 import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Base64Encoder;
 import org.junit.Test;
 
 import hesheng.commons.crypto.AESCoder;
@@ -82,7 +76,7 @@ public class TestAes {
 	@Test
 	public void test1() throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{
 		AESCoder coder = new AESCoder("AES/CBC/ISO10126Padding", 128, "1234567890123456");
-		System.out.println("key = " + Base64.encodeBase64String(coder.getKey()));
+		System.out.println("key = " + coder.getBase64EncodedKey());
 		String encrypted = coder.encrypt("你好呀", StandardCharsets.UTF_8);
 		System.out.println(encrypted);
 		String decrypted = coder.decrpty(encrypted, StandardCharsets.UTF_8);

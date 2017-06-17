@@ -20,7 +20,7 @@ public class AESCoder extends SymmetricCoder {
 	}
 	
 	public AESCoder(String cipherAlgorithm, String key, String iv) throws NoSuchAlgorithmException  {
-		super(KEY_ALGORITHM, cipherAlgorithm, key, iv); 
+		super(KEY_ALGORITHM,cipherAlgorithm, key, iv); 
 	}
 	
 }
