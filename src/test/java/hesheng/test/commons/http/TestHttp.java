@@ -10,15 +10,21 @@ import hesheng.commons.http.HttpUtils;
 
 public class TestHttp {
 	
+	@Test
+	public void test8(){ 
+		try {
+			System.out.println(HttpUtils.post("https://hassan:8080/swallow/user/testconn2.do", "这是发送的请求体" , StandardCharsets.UTF_8));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
  
 	
 	@Test
-	public void test7(){
-		Map<String, String> param = new HashMap<>();
-//		param.put("user", "小明");
-//		param.put("password", "这是密码" );
+	public void test7(){  
 		try {
-			System.out.println(HttpUtils.post("https://www.baidu.com/", param , StandardCharsets.UTF_8));
+			System.out.println(HttpUtils.post("https://www.baidu.com/", "" , StandardCharsets.UTF_8));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

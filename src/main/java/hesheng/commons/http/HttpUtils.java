@@ -3,6 +3,7 @@ package hesheng.commons.http;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
@@ -11,16 +12,23 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
@@ -66,16 +74,33 @@ public class HttpUtils {
 		}
 	}
 
-	public static String post(String url, Map<String, String> param, Charset charset){
+	public static String post(String url, Map<String, String> param, Charset charset) throws UnsupportedEncodingException{
+		List<NameValuePair> parameters = new ArrayList<>();
+		if (null != param){
+			for (String entry : param.keySet()){
+				BasicNameValuePair pair = new BasicNameValuePair(entry, param.get(entry));
+				parameters.add(pair);
+			}
+		}
+		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters ,charset);
+		return post(url, entity, charset);
+	}
+	
+
+	public static String post(String url, String requestBody, Charset charset){
+		StringEntity entity = new StringEntity(requestBody, charset);
+		return post(url, entity, charset);
+	}
+	
+	
+	public static String post(String url, HttpEntity entity, Charset charset){
 		Long t = System.currentTimeMillis(); 
 		
 		RequestBuilder requestBuilder = RequestBuilder.post(url) 
 	              .setCharset(charset) 
 	              .setConfig(MyHttpConfig.getRequestConfig() ) ;
-		
-		for (Map.Entry<String, String> item : param.entrySet()){
-			requestBuilder.addParameter(item.getKey(), item.getValue());
-		}
+		 
+		requestBuilder.setEntity(entity);
 		
 		HttpUriRequest request = requestBuilder.build(); 
 	  
