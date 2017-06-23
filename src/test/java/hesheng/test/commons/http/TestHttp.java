@@ -4,11 +4,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import hesheng.commons.http.HttpUtils;
 
 public class TestHttp {
+	
+	private Logger logger = Logger.getLogger(TestHttp.class);
+	
+	@Test
+	public void test9(){
+		logger.error("测试日志");
+	}
 	
 	@Test
 	public void test8(){ 
