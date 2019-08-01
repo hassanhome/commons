@@ -9,7 +9,7 @@ public class DESCoder extends SymmetricCoder {
 		this(keyAlgorithm,cipherAlgorithm, keySize, null);  
 	}
 	
-	public DESCoder(String keyAlgorithm, String cipherAlgorithm, String key) throws NoSuchAlgorithmException  {
+	public DESCoder(String keyAlgorithm, String cipherAlgorithm, String key) {
 		this(keyAlgorithm,cipherAlgorithm, key, null); 
 	}
 	
@@ -17,7 +17,7 @@ public class DESCoder extends SymmetricCoder {
 		super(keyAlgorithm, cipherAlgorithm, keySize, iv); 
 	}
 	
-	private DESCoder(String keyAlgorithm, String cipherAlgorithm, String key, String iv) throws NoSuchAlgorithmException  {
+	private DESCoder(String keyAlgorithm, String cipherAlgorithm, String key, String iv) {
 		super(keyAlgorithm,cipherAlgorithm, key, iv); 
 	}
 	

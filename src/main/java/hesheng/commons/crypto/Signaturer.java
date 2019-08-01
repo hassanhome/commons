@@ -40,7 +40,7 @@ public class Signaturer {
 		return Base64.encodeBase64String(sign(source, charset));
 	}
 
-	public byte[] sign(String source,Charset charset) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException{
+	private byte[] sign(String source, Charset charset) throws InvalidKeyException, SignatureException{
 		byte[] data = source.getBytes(charset);
 		signature.initSign(privateKey);
 		signature.update(data);
@@ -48,7 +48,7 @@ public class Signaturer {
 	}
 	
 	
-	public boolean verity(String source,Charset charset, byte[] sign ) throws InvalidKeyException, SignatureException{
+	private boolean verity(String source, Charset charset, byte[] sign) throws InvalidKeyException, SignatureException{
 		byte[] data = source.getBytes(charset);
 		signature.initVerify(publicKey);
 		signature.update(data );

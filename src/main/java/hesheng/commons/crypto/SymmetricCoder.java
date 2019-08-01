@@ -116,13 +116,13 @@ public class SymmetricCoder {
 	public void setCipherAlgorithm(String cipherAlgorithm) {
 		this.cipherAlgorithm = cipherAlgorithm;
 	}
- 
+
 
 	public IvParameterSpec getIps() {
 		return ips;
 	}
 
-	public void setIps(IvParameterSpec ips) {
+	void setIps(IvParameterSpec ips) {
 		this.ips = ips;
 	}
 
@@ -130,10 +130,7 @@ public class SymmetricCoder {
 		return secretKey;
 	}
 
-	public void setSecretKey(SecretKey secretKey) {
-		this.secretKey = secretKey;
-	}
-	
+
 	
 	
 	 

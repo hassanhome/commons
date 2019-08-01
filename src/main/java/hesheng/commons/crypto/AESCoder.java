@@ -10,8 +10,8 @@ public class AESCoder extends SymmetricCoder {
 	
 	/**
 	 * iv 默认是 1234567890123456
-	 * @param cipherAlgorithm
-	 * @param keySize
+	 * @param cipherAlgorithm 算法
+	 * @param keySize   密钥长度
 	 * @throws NoSuchAlgorithmException
 	 */
 	public AESCoder(String cipherAlgorithm,int keySize,String iv) throws NoSuchAlgorithmException  { 
@@ -19,7 +19,7 @@ public class AESCoder extends SymmetricCoder {
 		super.setIps(new IvParameterSpec("1234567890123456".getBytes(StandardCharsets.UTF_8)));
 	}
 	
-	public AESCoder(String cipherAlgorithm, String key, String iv) throws NoSuchAlgorithmException  {
+	public AESCoder(String cipherAlgorithm, String key, String iv) {
 		super(KEY_ALGORITHM,cipherAlgorithm, key, iv); 
 	}
 	
