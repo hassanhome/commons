@@ -13,11 +13,11 @@ public class DESCoder extends SymmetricCoder {
 		this(keyAlgorithm,cipherAlgorithm, key, null); 
 	}
 	
-	public DESCoder(String keyAlgorithm, String cipherAlgorithm,int keySize,String iv) throws NoSuchAlgorithmException  { 
+	private DESCoder(String keyAlgorithm, String cipherAlgorithm, int keySize, String iv) throws NoSuchAlgorithmException  {
 		super(keyAlgorithm, cipherAlgorithm, keySize, iv); 
 	}
 	
-	public DESCoder(String keyAlgorithm, String cipherAlgorithm, String key, String iv) throws NoSuchAlgorithmException  {
+	private DESCoder(String keyAlgorithm, String cipherAlgorithm, String key, String iv) throws NoSuchAlgorithmException  {
 		super(keyAlgorithm,cipherAlgorithm, key, iv); 
 	}
 	

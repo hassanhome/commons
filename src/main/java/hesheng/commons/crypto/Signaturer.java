@@ -23,7 +23,7 @@ public class Signaturer {
 	}
 	
 	 
-	public Signaturer(Provider provider,String algorithm,PrivateKey privateKey, PublicKey publicKey) throws NoSuchAlgorithmException{
+	private Signaturer(Provider provider, String algorithm, PrivateKey privateKey, PublicKey publicKey) throws NoSuchAlgorithmException{
 		this.privateKey = privateKey;
 		this.publicKey = publicKey; 
 		this.algorithm = algorithm;

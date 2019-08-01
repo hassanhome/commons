@@ -28,7 +28,7 @@ public class RSACoder {
 		this.publicKey = publicKey;
 	}
 
-	public byte[] descrypt(byte[] data) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+	private byte[] descrypt(byte[] data) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
 		Cipher cipher = Cipher.getInstance(cipherAlgorithm);
 		cipher.init(Cipher.DECRYPT_MODE, privateKey);
 		return cipher.doFinal(data);
@@ -40,7 +40,7 @@ public class RSACoder {
 		return new String(descryptByteArray, charset);
 	}
 	
-	public byte[] encrypt(byte[] data) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+	private byte[] encrypt(byte[] data) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
 		Cipher cipher = Cipher.getInstance(cipherAlgorithm);
 		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 		return cipher.doFinal(data);

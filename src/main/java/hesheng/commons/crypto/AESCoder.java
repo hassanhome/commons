@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.spec.IvParameterSpec;
 
 public class AESCoder extends SymmetricCoder {
-	public static final String KEY_ALGORITHM = "AES";
+	private static final String KEY_ALGORITHM = "AES";
 	
 	/**
 	 * iv 默认是 1234567890123456

@@ -1,23 +1,5 @@
 package hesheng.commons.http;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -33,12 +15,32 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class HttpUtils {
 	private static Logger logger = Logger.getLogger(HttpUtils.class);
 	
 	private static KeyStore keystore = null;
-	
-	public static KeyStore getTrustKeyStore() throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
+	private static final String SSL = "SSL";
+
+	private HttpUtils() {
+	}
+
+	private static KeyStore getTrustKeyStore() throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
 		if (null != keystore){
 			return keystore;
 		}
@@ -55,10 +57,9 @@ public class HttpUtils {
 			 //复制ca证书
 			 FileUtils.copyFile(srcFile, destFile );
 			 
-			 FileInputStream fin = null;
-			try {
+
+			try( FileInputStream fin = new FileInputStream(acPath) ) {
 				 keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-				 fin = new FileInputStream(acPath);
 				 keystore.load(fin, "changeit".toCharArray()); 
 				
 				 //添加私有证书
@@ -67,14 +68,12 @@ public class HttpUtils {
 				 Certificate crt = keystoreTmp.getCertificate("hassan");
 				 keystore.setCertificateEntry("hesheng_hassan", crt);
 				return keystore;
-			}finally {
-				IOUtils.closeQuietly(fin);
-			}  
+			}
 
 		}
 	}
 
-	public static String post(String url, Map<String, String> param, Charset charset) throws UnsupportedEncodingException{
+	public static String post(String url, Map<String, String> param, Charset charset) {
 		List<NameValuePair> parameters = new ArrayList<>();
 		if (null != param){
 			for (String entry : param.keySet()){
@@ -93,7 +92,7 @@ public class HttpUtils {
 	}
 	
 	
-	public static String post(String url, HttpEntity entity, Charset charset){
+	private static String post(String url, HttpEntity entity, Charset charset){
 		Long t = System.currentTimeMillis(); 
 		
 		RequestBuilder requestBuilder = RequestBuilder.post(url) 
@@ -109,7 +108,8 @@ public class HttpUtils {
 			SSLContext sslContext = SSLContexts.custom()
 					                           .loadTrustMaterial(getTrustKeyStore(), null)  
 					                           .build();
-			 SSLContext sslnew = SSLContext.getInstance("SSL");
+
+			SSLContext sslnew = SSLContext.getInstance(SSL);
 			 sslnew.init(null, null, new SecureRandom());
 			resp = HttpClients.custom()
 					          .setRetryHandler(MyHttpConfig.getHttpRequestRetryHandler()) 
@@ -120,11 +120,9 @@ public class HttpUtils {
 			return EntityUtils.toString(resp.getEntity(), StandardCharsets.UTF_8);
 		} catch (Exception e) { 
 			logger.error("http请求"+url+"异常", e);
-			e.printStackTrace();
 		} finally {
-			Long use = (System.currentTimeMillis()-t) ;
-			
-			System.out.println("耗时"+use+"毫秒"); 
+			long use = (System.currentTimeMillis()-t) ;
+			logger.info("耗时"+use+"毫秒");
 			IOUtils.closeQuietly(resp);
 		}
 		

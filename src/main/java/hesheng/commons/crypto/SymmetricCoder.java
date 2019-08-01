@@ -42,7 +42,7 @@ public class SymmetricCoder {
 	/**
 	 * iv
 	 */
-	IvParameterSpec ips ;
+	private IvParameterSpec ips ;
 	
 	public SymmetricCoder(String keyAlgorithm, String cipherAlgorithm,int keySize,String iv) throws NoSuchAlgorithmException{ 
 		this.keyAlgorithm = keyAlgorithm;
@@ -55,7 +55,7 @@ public class SymmetricCoder {
 		}
 	}
 	
-	public SymmetricCoder(String keyAlgorithm,String cipherAlgorithm, String key, String iv) throws NoSuchAlgorithmException{
+	public SymmetricCoder(String keyAlgorithm,String cipherAlgorithm, String key, String iv) {
 		this.keyAlgorithm = keyAlgorithm;
 		this.cipherAlgorithm = cipherAlgorithm;  
 		this.secretKey = toKey(Base64.decodeBase64(key), keyAlgorithm); 
@@ -79,7 +79,7 @@ public class SymmetricCoder {
 		return new String(outData,charset);
 	}
 	
-	public String encrypt(String data, String charsetStr) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException{
+	public String encrypt(String data, String charsetStr) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException{
 		Charset charset = Charset.forName(charsetStr);
 		return this.encrypt(data, charset);
 	}
